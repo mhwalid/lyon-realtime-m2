@@ -10,29 +10,52 @@ const socket = io("http://localhost:3000");
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState("");
+  const [messageSuggestions, setmessageSuggestions] = useState([]);
+  const [suggestedResponses, setSuggestedResponses] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket.id);
     });
 
-    socket.once("messages-old", (data) => {
+    socket.on("messages-old", (data) => {
       setMessages((msg) => [msg, ...data] as any);
     });
 
     socket.on("chat-message", (data) => {
       setMessages((msg) => [...msg, data] as any);
     });
+
+
   }, []);
 
+  
+
+
+
+ 
+
   return (
-    <div>
-      <h1>Chat</h1>
+    <div className="container bg-base-100 shadow-2xl"  style={centeredDivStyle}>
+    <div className=" container-center "  >
       <Username socket={socket} setUsername={setUsername} />
+      <Messages  messages={messages} username={username}  socket={socket}/>
       <SendMessage socket={socket} username={username} />
-      <Messages messages={messages} username={username} />
+    </div>
+    
     </div>
   );
 };
+
+
+
+const centeredDivStyle: React.CSSProperties = {
+  marginLeft: '12%',
+  borderRadius: '40px',
+  width:'80%',
+};
+
+
 
 export default Chat;

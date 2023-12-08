@@ -18,7 +18,7 @@ const Username = ({ socket, setUsername }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="me-8" onSubmit={handleSubmit}>
       <input
         type="text"
         value={text}
